@@ -1,5 +1,6 @@
 package com.josdem.auth.config;
 
+import com.josdem.auth.model.Roles;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
@@ -39,6 +40,15 @@ import java.util.UUID;
 @EnableWebSecurity
 public class SecurityConfig {
 
+  private static final int KEY_SIZE = 2048;
+  public static final String ALGORITHM = "RSA";
+
+  private ApplicationConfig applicationConfig;
+
+  public SecurityConfig(ApplicationConfig applicationConfig) {
+    this.applicationConfig = applicationConfig;
+  }
+
   @Bean
   public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
       throws Exception {
@@ -62,20 +72,20 @@ public class SecurityConfig {
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
             .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-            .redirectUri("http://127.0.0.1:8080/login/oauth2/code/login-client")
-            .redirectUri("http://127.0.0.1:8080/authorized")
+            .redirectUri(applicationConfig.getLoginClientUrl())
+            .redirectUri(applicationConfig.getAuthorizedUrl())
             .scope(OidcScopes.OPENID)
             .scope(OidcScopes.PROFILE)
             .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
             .build();
     RegisteredClient registeredClient =
         RegisteredClient.withId(UUID.randomUUID().toString())
-            .clientId("messaging-client")
-            .clientSecret("{noop}secret")
+            .clientId(applicationConfig.getClientId())
+            .clientSecret(applicationConfig.getClientSecret())
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
             .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-            .scope("message:read")
-            .scope("message:write")
+            .scope("read")
+            .scope("write")
             .build();
     return new InMemoryRegisteredClientRepository(loginClient, registeredClient);
   }
@@ -84,13 +94,11 @@ public class SecurityConfig {
   public JWKSource<SecurityContext> jwkSource(KeyPair keyPair) {
     RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
     RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
-    // @formatter:off
     RSAKey rsaKey =
         new RSAKey.Builder(publicKey)
             .privateKey(privateKey)
             .keyID(UUID.randomUUID().toString())
             .build();
-    // @formatter:on
     JWKSet jwkSet = new JWKSet(rsaKey);
     return new ImmutableJWKSet<>(jwkSet);
   }
@@ -102,16 +110,16 @@ public class SecurityConfig {
 
   @Bean
   public AuthorizationServerSettings providerSettings() {
-    return AuthorizationServerSettings.builder().issuer("http://localhost:9000").build();
+    return AuthorizationServerSettings.builder().issuer(applicationConfig.getServerUrl()).build();
   }
 
   @Bean
   public UserDetailsService userDetailsService() {
     UserDetails userDetails =
         User.withDefaultPasswordEncoder()
-            .username("user")
-            .password("password")
-            .roles("USER")
+            .username(applicationConfig.getUsername())
+            .password(applicationConfig.getPassword())
+            .roles(Roles.USER.name())
             .build();
     return new InMemoryUserDetailsManager(userDetails);
   }
@@ -121,8 +129,8 @@ public class SecurityConfig {
   KeyPair generateRsaKey() {
     KeyPair keyPair;
     try {
-      KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-      keyPairGenerator.initialize(2048);
+      KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM);
+      keyPairGenerator.initialize(KEY_SIZE);
       keyPair = keyPairGenerator.generateKeyPair();
     } catch (Exception ex) {
       throw new IllegalStateException(ex);
