@@ -9,6 +9,12 @@ This project shows how to implement [Oauth 2.0](https://oauth.net/2/) with [Spri
 gradle bootRun
 ```
 
+#### To run the project in production
+
+```bash
+gradle bootRun -Dspring.profiles.active=prod
+```
+
 #### To issue a token
 ```bash
 curl -X POST https://auth.josdem.io/oauth2/token -u "client:secret" -d "grant_type=client_credentials" -d "scope=read"
