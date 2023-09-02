@@ -17,7 +17,7 @@ gradle bootRun -Dspring.profiles.active=prod
 
 #### To issue a token
 ```bash
-curl -X POST https://auth.josdem.io/oauth2/token -u "client:secret" -d "grant_type=client_credentials" -d "scope=read"
+curl -X POST https://auth.josdem.io/oauth2/token -u "client:secret" -d "grant_type=client_credentials" -d "scope=write"
 ```
 
 And you should get a response like
