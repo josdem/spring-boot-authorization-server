@@ -22,6 +22,18 @@ repositories {
 	mavenCentral()
 }
 
+spotless {
+	java {
+		target fileTree('.') {
+			include 'src/**/*.java'
+			exclude '/build/**'
+		}
+		googleJavaFormat()
+		removeUnusedImports()
+		endWithNewline()
+	}
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-authorization-server'
