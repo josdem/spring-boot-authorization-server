@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties("app")
 public class ApplicationConfig {
-    private String serverUrl;
-    private String loginClientUrl;
-    private String authorizedUrl;
-    private String clientUrl;
-    private String clientId;
-    private String clientSecret;
-    private String username;
-    private String password;
+  private String serverUrl;
+  private String loginClientUrl;
+  private String authorizedUrl;
+  private String clientUrl;
+  private String clientId;
+  private String clientSecret;
+  private String username;
+  private String password;
 }
