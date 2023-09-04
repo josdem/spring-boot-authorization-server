@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.josdem.auth.util.CredentialsEncoder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -23,6 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 class CredentialsClientTest {
 
   public static final String WRITE = "write";
+  public static final String BASIC = "Basic";
 
   private final MockMvc mockMvc;
 
@@ -33,7 +35,9 @@ class CredentialsClientTest {
     mockMvc
         .perform(
             post("/oauth2/token")
-                .header(AUTHORIZATION, "Basic Y2xpZW50OnNlY3JldA==")
+                .header(
+                    AUTHORIZATION,
+                    String.format(BASIC + " %s", CredentialsEncoder.encode("client", "secret")))
                 .param("grant_type", CLIENT_CREDENTIALS.getValue())
                 .param("scope", WRITE))
         .andExpect(status().isOk())

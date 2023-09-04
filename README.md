@@ -4,16 +4,26 @@ Spring Boot Authorization Server
 This project shows how to implement [Oauth 2.0](https://oauth.net/2/) with [Spring Boot Security](https://docs.spring.io/spring-security/reference/index.html) project
 
 #### To run the project
-
 ```bash
 gradle bootRun
 ```
 
 #### To run the project in production
-
 ```bash
 gradle bootRun -Dspring.profiles.active=prod
 ```
+
+#### To run tests
+```bash
+gradle test
+```
+
+#### To run a single test
+```bash
+gradle test --tests ${testName}
+```
+
+Where: `${testName}` is the name of the test you want to run
 
 #### To issue a token
 ```bash
