@@ -6,17 +6,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 @Slf4j
 @SpringBootTest
@@ -24,15 +20,7 @@ import org.springframework.web.context.WebApplicationContext;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 class CredentialsClientTest {
 
-  private final WebApplicationContext wac;
-  private final FilterChainProxy springSecurityFilterChain;
-  private MockMvc mockMvc;
-
-  @BeforeEach
-  public void setup() {
-    this.mockMvc =
-        MockMvcBuilders.webAppContextSetup(this.wac).addFilter(springSecurityFilterChain).build();
-  }
+  private final MockMvc mockMvc;
 
   @Test
   @DisplayName("it gets client credentials")
