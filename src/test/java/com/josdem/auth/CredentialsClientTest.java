@@ -55,4 +55,21 @@ class CredentialsClientTest {
         .andExpect(jsonPath("$.expires_in").isNumber())
         .andExpect(jsonPath("$.scope").value(WRITE));
   }
+
+  @Test
+  @DisplayName("it gets error due to invalid client credentials")
+  void shouldNotGetClientCredentials(TestInfo testInfo) throws Exception {
+    log.info("Running: {}", testInfo.getDisplayName());
+    mockMvc
+        .perform(
+            post("/oauth2/token")
+                .header(
+                    AUTHORIZATION,
+                    String.format(
+                        BASIC + " %s",
+                        CredentialsEncoder.encode("not-valid-user", "not-valid-password")))
+                .param("grant_type", CLIENT_CREDENTIALS.getValue())
+                .param("scope", WRITE))
+        .andExpect(status().isUnauthorized());
+  }
 }

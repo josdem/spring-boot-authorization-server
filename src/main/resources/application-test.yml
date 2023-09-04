@@ -3,7 +3,7 @@ app:
   clientUrl: "http://localhost:8080/"
   loginClientUrl: "http://localhost:8080/login/oauth2/code/login-client"
   authorizedUrl: "http://localhost:8080/authorized"
-  clientId: "client1"
+  clientId: "client"
   clientSecret: "{noop}secret"
   username: "username"
   password: "password"
