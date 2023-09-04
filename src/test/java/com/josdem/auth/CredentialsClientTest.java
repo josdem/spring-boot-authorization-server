@@ -89,4 +89,21 @@ class CredentialsClientTest {
                 .param("scope", WRITE))
         .andExpect(status().isBadRequest());
   }
+
+  @Test
+  @DisplayName("it gets unsupported scope")
+  void shouldGetUnsupportedScope(TestInfo testInfo) throws Exception {
+    log.info("Running: {}", testInfo.getDisplayName());
+    mockMvc
+        .perform(
+            post("/oauth2/token")
+                .header(
+                    AUTHORIZATION,
+                    String.format(
+                        BASIC + " %s",
+                        CredentialsEncoder.encode(applicationConfig.getClientId(), TEST_PASSWORD)))
+                .param("grant_type", CLIENT_CREDENTIALS.getValue())
+                .param("scope", "not-valid-scope"))
+        .andExpect(status().isBadRequest());
+  }
 }
