@@ -72,4 +72,21 @@ class CredentialsClientTest {
                 .param("scope", WRITE))
         .andExpect(status().isUnauthorized());
   }
+
+  @Test
+  @DisplayName("it gets unsupported grant type")
+  void shouldGetUnsupportedGrantType(TestInfo testInfo) throws Exception {
+    log.info("Running: {}", testInfo.getDisplayName());
+    mockMvc
+        .perform(
+            post("/oauth2/token")
+                .header(
+                    AUTHORIZATION,
+                    String.format(
+                        BASIC + " %s",
+                        CredentialsEncoder.encode(applicationConfig.getClientId(), TEST_PASSWORD)))
+                .param("grant_type", "not-valid-grant-type")
+                .param("scope", WRITE))
+        .andExpect(status().isBadRequest());
+  }
 }
