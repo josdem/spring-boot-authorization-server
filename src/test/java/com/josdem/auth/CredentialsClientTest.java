@@ -22,6 +22,8 @@ import org.springframework.test.web.servlet.MockMvc;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 class CredentialsClientTest {
 
+  public static final String WRITE = "write";
+
   private final MockMvc mockMvc;
 
   @Test
@@ -33,11 +35,11 @@ class CredentialsClientTest {
             post("/oauth2/token")
                 .header(AUTHORIZATION, "Basic Y2xpZW50OnNlY3JldA==")
                 .param("grant_type", CLIENT_CREDENTIALS.getValue())
-                .param("scope", "write"))
+                .param("scope", WRITE))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.access_token").isNotEmpty())
         .andExpect(jsonPath("$.token_type").value("Bearer"))
         .andExpect(jsonPath("$.expires_in").isNumber())
-        .andExpect(jsonPath("$.scope").value("write"));
+        .andExpect(jsonPath("$.scope").value(WRITE));
   }
 }
