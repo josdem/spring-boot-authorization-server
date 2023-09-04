@@ -1,0 +1,22 @@
+name: Run tests
+run-name: Unit and Integration Tests
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+jobs:
+  Junit-Jupiter:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Running on a ${{ runner.os }} server 🐧❤️"
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+      - run: echo "Ready to test."
+      - name: Execute tests
+        run: ./gradlew test
