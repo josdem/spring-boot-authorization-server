@@ -2,6 +2,7 @@ Spring Boot Authorization Server
 ----------------------------
 
 [![GitHub](https://github.com/josdem/spring-boot-authorization-server/actions/workflows/main.yml/badge.svg)](https://github.com/josdem/spring-boot-authorization-server/actions)
+[![Jenkins](https://ci.josdem.io/job/spring-boot-authorization-server/badge/icon)](https://ci.josdem.io/job/spring-boot-authentication-server/)
 
 This project shows how to implement [Oauth 2.0](https://oauth.net/2/) with [Spring Boot Security](https://docs.spring.io/spring-security/reference/index.html) project
 
