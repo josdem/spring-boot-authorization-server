@@ -1,6 +1,7 @@
 package com.josdem.auth;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.security.oauth2.core.AuthorizationGrantType.CLIENT_CREDENTIALS;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,7 +32,7 @@ class CredentialsClientTest {
         .perform(
             post("/oauth2/token")
                 .header(AUTHORIZATION, "Basic Y2xpZW50OnNlY3JldA==")
-                .param("grant_type", "client_credentials")
+                .param("grant_type", CLIENT_CREDENTIALS.getValue())
                 .param("scope", "write"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.access_token").isNotEmpty())
