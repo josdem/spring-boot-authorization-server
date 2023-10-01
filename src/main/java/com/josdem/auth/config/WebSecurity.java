@@ -1,5 +1,7 @@
 package com.josdem.auth.config;
 
+import com.josdem.auth.model.Roles;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,24 +14,26 @@ import org.springframework.security.web.SecurityFilterChain;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class WebSecurity {
 
-    @Bean
-    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests(authorizeRequests ->
-                        authorizeRequests.anyRequest().authenticated()
-                )
-                .formLogin(withDefaults());
-        return http.build();
-    }
+  private final ApplicationConfig applicationConfig;
 
-    @Bean
-    UserDetailsService users() {
-        UserDetails user = User.withDefaultPasswordEncoder()
-                .username("admin")
-                .password("password")
-                .roles("USER")
-                .build();
-        return new InMemoryUserDetailsManager(user);
-    }
+  @Bean
+  SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+    http.authorizeRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
+        .formLogin(withDefaults());
+    return http.build();
+  }
+
+  @Bean
+  UserDetailsService users() {
+    UserDetails user =
+        User.withDefaultPasswordEncoder()
+            .username(applicationConfig.getUsername())
+            .password(applicationConfig.getPassword())
+            .roles(Roles.USER.name())
+            .build();
+    return new InMemoryUserDetailsManager(user);
+  }
 }
