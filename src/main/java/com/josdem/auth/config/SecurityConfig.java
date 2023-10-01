@@ -53,13 +53,6 @@ public class SecurityConfig {
   }
 
   @Bean
-  SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-    http.authorizeRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
-        .formLogin(withDefaults());
-    return http.build();
-  }
-
-  @Bean
   public RegisteredClientRepository registeredClientRepository() {
     RegisteredClient loginClient =
         RegisteredClient.withId(UUID.randomUUID().toString())
@@ -112,17 +105,6 @@ public class SecurityConfig {
       throw new IllegalStateException(ex);
     }
     return keyPair;
-  }
-
-  @Bean
-  public UserDetailsService userDetailsService() {
-    UserDetails userDetails =
-        User.withDefaultPasswordEncoder()
-            .username(applicationConfig.getUsername())
-            .password(applicationConfig.getPassword())
-            .roles(Roles.USER.name())
-            .build();
-    return new InMemoryUserDetailsManager(userDetails);
   }
 
   @Bean
