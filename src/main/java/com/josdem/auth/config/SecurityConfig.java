@@ -15,6 +15,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -49,6 +50,7 @@ public class SecurityConfig {
   }
 
   @Bean
+  @Order(1)
   public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
       throws Exception {
     OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
@@ -56,6 +58,7 @@ public class SecurityConfig {
   }
 
   @Bean
+  @Order(2)
   public SecurityFilterChain standardSecurityFilterChain(HttpSecurity http) throws Exception {
     http.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
         .formLogin(Customizer.withDefaults());
@@ -74,7 +77,7 @@ public class SecurityConfig {
             .redirectUri(applicationConfig.getLoginClientUrl())
             .redirectUri(applicationConfig.getAuthorizedUrl())
             .scope(OidcScopes.OPENID)
-            .scope(OidcScopes.PROFILE)
+            .scope("categories.read")
             .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
             .build();
     RegisteredClient registeredClient =
