@@ -49,20 +49,20 @@ public class SecurityConfig {
   public RegisteredClientRepository registeredClientRepository() {
     RegisteredClient registeredClient =
         RegisteredClient.withId(UUID.randomUUID().toString())
-            .clientId(applicationConfig.getAuthClientId())
-            .clientSecret(applicationConfig.getAuthClientSecret())
+            .clientId(applicationConfig.getOidcClientId())
+            .clientSecret(applicationConfig.getOidcClientSecret())
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
             .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
             .redirectUri(applicationConfig.getLoginClientUrl())
             .redirectUri(applicationConfig.getAuthorizedUrl())
             .scope(OidcScopes.OPENID)
-            .scope("articles.read")
+            .scope("categories.read")
             .build();
     RegisteredClient loginClient =
         RegisteredClient.withId(UUID.randomUUID().toString())
-            .clientId(applicationConfig.getCredentialsClientId())
-            .clientSecret(applicationConfig.getCredentialsClientSecret())
+            .clientId(applicationConfig.getClientId())
+            .clientSecret(applicationConfig.getClientSecret())
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
             .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
             .scope("read")

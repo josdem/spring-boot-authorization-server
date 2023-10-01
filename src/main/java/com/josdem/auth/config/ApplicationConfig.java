@@ -14,10 +14,10 @@ public class ApplicationConfig {
   private String loginClientUrl;
   private String authorizedUrl;
   private String clientUrl;
-  private String credentialsClientId;
-  private String credentialsClientSecret;
-  private String authClientId;
-  private String authClientSecret;
+  private String clientId;
+  private String clientSecret;
+  private String oidcClientId;
+  private String oidcClientSecret;
   private String username;
   private String password;
 }
