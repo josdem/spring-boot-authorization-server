@@ -1,10 +1,12 @@
 app:
-  serverUrl: "http://localhost:9000/"
+  serverUrl: "http://auth-server:9000"
   clientUrl: "http://localhost:8080/"
-  loginClientUrl: "http://localhost:8080/login/oauth2/code/categories-client-oidc"
+  loginClientUrl: "http://127.0.0.1:8080/login/oauth2/code/articles-client-oidc"
   authorizedUrl: "http://localhost:8080/authorized"
-  clientId: "client"
-  clientSecret: "{noop}secret1"
+  credentialsClientId: "credentials-client"
+  credentialsClientSecret: "{noop}credentials-secret"
+  authClientId: "articles-client"
+  authClientSecret: "{noop}secret"
   username: "username"
   password: "password"
 server:

@@ -1,6 +1,5 @@
 package com.josdem.auth.config;
 
-import com.josdem.auth.model.Roles;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
@@ -10,11 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
@@ -22,7 +17,6 @@ import org.springframework.security.oauth2.server.authorization.client.InMemoryR
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.security.KeyPair;
@@ -54,21 +48,22 @@ public class SecurityConfig {
 
   @Bean
   public RegisteredClientRepository registeredClientRepository() {
-    RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
-            .clientId("articles-client")
-            .clientSecret("{noop}secret")
+    RegisteredClient registeredClient =
+        RegisteredClient.withId(UUID.randomUUID().toString())
+            .clientId(applicationConfig.getAuthClientId())
+            .clientSecret(applicationConfig.getAuthClientSecret())
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
             .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-            .redirectUri("http://127.0.0.1:8080/login/oauth2/code/articles-client-oidc")
-            .redirectUri("http://127.0.0.1:8080/authorized")
+            .redirectUri(applicationConfig.getLoginClientUrl())
+            .redirectUri(applicationConfig.getAuthorizedUrl())
             .scope(OidcScopes.OPENID)
             .scope("articles.read")
             .build();
     RegisteredClient loginClient =
         RegisteredClient.withId(UUID.randomUUID().toString())
-            .clientId(applicationConfig.getClientId())
-            .clientSecret(applicationConfig.getClientSecret())
+            .clientId(applicationConfig.getCredentialsClientId())
+            .clientSecret(applicationConfig.getCredentialsClientSecret())
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
             .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
             .scope("read")
@@ -97,8 +92,8 @@ public class SecurityConfig {
   private static KeyPair generateRsaKey() {
     KeyPair keyPair;
     try {
-      KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-      keyPairGenerator.initialize(2048);
+      KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM);
+      keyPairGenerator.initialize(KEY_SIZE);
       keyPair = keyPairGenerator.generateKeyPair();
     } catch (Exception ex) {
       throw new IllegalStateException(ex);
@@ -108,6 +103,6 @@ public class SecurityConfig {
 
   @Bean
   public ProviderSettings providerSettings() {
-    return ProviderSettings.builder().issuer("http://auth-server:9000").build();
+    return ProviderSettings.builder().issuer(applicationConfig.getServerUrl()).build();
   }
 }
