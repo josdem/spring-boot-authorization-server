@@ -28,7 +28,7 @@ class CredentialsClientTest {
 
   public static final String WRITE = "write";
   public static final String BASIC = "Basic";
-  public static final String TEST_PASSWORD = "secret";
+  public static final String TEST_PASSWORD = "credentials-secret";
   public static final String BEARER = "Bearer";
 
   private final MockMvc mockMvc;
@@ -46,7 +46,8 @@ class CredentialsClientTest {
                     AUTHORIZATION,
                     String.format(
                         BASIC + " %s",
-                        CredentialsEncoder.encode(applicationConfig.getClientId(), TEST_PASSWORD)))
+                        CredentialsEncoder.encode(
+                            applicationConfig.getCredentialsClientId(), TEST_PASSWORD)))
                 .param("grant_type", CLIENT_CREDENTIALS.getValue())
                 .param("scope", WRITE))
         .andExpect(status().isOk())
@@ -84,7 +85,8 @@ class CredentialsClientTest {
                     AUTHORIZATION,
                     String.format(
                         BASIC + " %s",
-                        CredentialsEncoder.encode(applicationConfig.getClientId(), TEST_PASSWORD)))
+                        CredentialsEncoder.encode(
+                            applicationConfig.getCredentialsClientId(), TEST_PASSWORD)))
                 .param("grant_type", "not-valid-grant-type")
                 .param("scope", WRITE))
         .andExpect(status().isBadRequest());
@@ -101,7 +103,8 @@ class CredentialsClientTest {
                     AUTHORIZATION,
                     String.format(
                         BASIC + " %s",
-                        CredentialsEncoder.encode(applicationConfig.getClientId(), TEST_PASSWORD)))
+                        CredentialsEncoder.encode(
+                            applicationConfig.getCredentialsClientId(), TEST_PASSWORD)))
                 .param("grant_type", CLIENT_CREDENTIALS.getValue())
                 .param("scope", "not-valid-scope"))
         .andExpect(status().isBadRequest());
