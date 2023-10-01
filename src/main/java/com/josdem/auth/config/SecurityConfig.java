@@ -54,19 +54,18 @@ public class SecurityConfig {
 
   @Bean
   public RegisteredClientRepository registeredClientRepository() {
-    RegisteredClient loginClient =
-        RegisteredClient.withId(UUID.randomUUID().toString())
-            .clientId("login-client")
-            .clientSecret("{noop}openid-connect")
+    RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
+            .clientId("articles-client")
+            .clientSecret("{noop}secret")
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
             .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-            .redirectUri(applicationConfig.getLoginClientUrl())
-            .redirectUri(applicationConfig.getAuthorizedUrl())
+            .redirectUri("http://127.0.0.1:8080/login/oauth2/code/articles-client-oidc")
+            .redirectUri("http://127.0.0.1:8080/authorized")
             .scope(OidcScopes.OPENID)
-            .scope("categories.read")
+            .scope("articles.read")
             .build();
-    RegisteredClient registeredClient =
+    RegisteredClient loginClient =
         RegisteredClient.withId(UUID.randomUUID().toString())
             .clientId(applicationConfig.getClientId())
             .clientSecret(applicationConfig.getClientSecret())
