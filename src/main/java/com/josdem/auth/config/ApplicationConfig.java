@@ -13,7 +13,6 @@ public class ApplicationConfig {
   private String serverUrl;
   private String loginClientUrl;
   private String authorizedUrl;
-  private String clientUrl;
   private String clientId;
   private String clientSecret;
   private String oidcClientId;

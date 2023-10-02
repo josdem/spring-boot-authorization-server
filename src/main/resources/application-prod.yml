@@ -1,6 +1,5 @@
 app:
   serverUrl: "https://auth.josdem.io/"
-  clientUrl: "http://localhost:8080/"
   loginClientUrl: "http://localhost:8080/login/oauth2/code/categories-client"
   authorizedUrl: "http://localhost:8080/authorized"
   clientId: "client"

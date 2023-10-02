@@ -1,6 +1,5 @@
 app:
   serverUrl: "http://auth-server:9000"
-  clientUrl: "http://localhost:8080/"
   loginClientUrl: "http://127.0.0.1:8080/login/oauth2/code/categories-client-oidc"
   authorizedUrl: "http://127.0.0.1:8080/authorized"
   clientId: "client"
