@@ -48,26 +48,26 @@ public class SecurityConfig {
   @Bean
   public RegisteredClientRepository registeredClientRepository() {
     RegisteredClient registeredClient =
-            RegisteredClient.withId(UUID.randomUUID().toString())
-                    .clientId(applicationConfig.getOidcClientId())
-                    .clientSecret(applicationConfig.getOidcClientSecret())
-                    .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                    .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                    .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                    .redirectUri(applicationConfig.getLoginClientUrl())
-                    .redirectUri(applicationConfig.getAuthorizedUrl())
-                    .scope(OidcScopes.OPENID)
-                    .scope("categories.read")
-                    .build();
+        RegisteredClient.withId(UUID.randomUUID().toString())
+            .clientId(applicationConfig.getOidcClientId())
+            .clientSecret(applicationConfig.getOidcClientSecret())
+            .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+            .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+            .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+            .redirectUri(applicationConfig.getLoginClientUrl())
+            .redirectUri(applicationConfig.getAuthorizedUrl())
+            .scope(OidcScopes.OPENID)
+            .scope("categories.read")
+            .build();
     RegisteredClient loginClient =
-            RegisteredClient.withId(UUID.randomUUID().toString())
-                    .clientId(applicationConfig.getClientId())
-                    .clientSecret(applicationConfig.getClientSecret())
-                    .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                    .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                    .scope("read")
-                    .scope("write")
-                    .build();
+        RegisteredClient.withId(UUID.randomUUID().toString())
+            .clientId(applicationConfig.getClientId())
+            .clientSecret(applicationConfig.getClientSecret())
+            .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+            .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+            .scope("read")
+            .scope("write")
+            .build();
     return new InMemoryRegisteredClientRepository(loginClient, registeredClient);
   }
 
@@ -83,9 +83,9 @@ public class SecurityConfig {
     RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
     RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
     return new RSAKey.Builder(publicKey)
-            .privateKey(privateKey)
-            .keyID(UUID.randomUUID().toString())
-            .build();
+        .privateKey(privateKey)
+        .keyID(UUID.randomUUID().toString())
+        .build();
   }
 
   private static KeyPair generateRsaKey() {

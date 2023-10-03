@@ -22,18 +22,18 @@ public class WebSecurity {
   @Bean
   SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
     http.authorizeRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
-            .formLogin(withDefaults());
+        .formLogin(withDefaults());
     return http.build();
   }
 
   @Bean
   UserDetailsService users() {
     UserDetails user =
-            User.withDefaultPasswordEncoder()
-                    .username(applicationConfig.getUsername())
-                    .password(applicationConfig.getPassword())
-                    .roles(Roles.USER.name())
-                    .build();
+        User.withDefaultPasswordEncoder()
+            .username(applicationConfig.getUsername())
+            .password(applicationConfig.getPassword())
+            .roles(Roles.USER.name())
+            .build();
     return new InMemoryUserDetailsManager(user);
   }
 }
