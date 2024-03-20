@@ -1,5 +1,6 @@
 package com.josdem.auth.service.impl;
 
+import com.josdem.auth.exception.BusinessException;
 import com.josdem.auth.model.User;
 import com.josdem.auth.repository.UserRepository;
 import java.util.Arrays;
@@ -24,7 +25,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
           user.getUsername(),
           user.getPassword(),
           Arrays.asList(new SimpleGrantedAuthority(user.getRole().name())));
+    } else {
+      throw new BusinessException("User not found with username: " + username);
     }
-    return null;
   }
 }
