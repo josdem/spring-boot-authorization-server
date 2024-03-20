@@ -1,8 +1,10 @@
 package com.josdem.auth.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
+import com.josdem.auth.exception.BusinessException;
 import com.josdem.auth.model.Role;
 import com.josdem.auth.model.User;
 import com.josdem.auth.repository.UserRepository;
@@ -51,5 +53,14 @@ class UserDetailsServiceTest {
     assertEquals(user.getUsername(), result.getUsername());
     assertEquals(user.getPassword(), result.getPassword());
     assertEquals(user.getEnabled(), result.isEnabled());
+  }
+
+  @Test
+  @DisplayName("not search for authorities since user does not exist")
+  void shouldNotSearchForAuthoritiesDueToUserNotFound(TestInfo testInfo) {
+    log.info("Running: {}", testInfo.getDisplayName());
+    assertThrows(
+        BusinessException.class,
+        () -> userDetailsService.loadUserByUsername("thisUserDoesNotExist"));
   }
 }
