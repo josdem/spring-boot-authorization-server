@@ -2,7 +2,7 @@ package com.josdem.auth.config;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-import com.josdem.auth.model.Roles;
+import com.josdem.auth.model.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,7 +32,7 @@ public class WebSecurity {
         User.withDefaultPasswordEncoder()
             .username(applicationConfig.getUsername())
             .password(applicationConfig.getPassword())
-            .roles(Roles.USER.name())
+            .roles(Role.USER.name())
             .build();
     return new InMemoryUserDetailsManager(user);
   }

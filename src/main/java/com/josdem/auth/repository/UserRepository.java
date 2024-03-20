@@ -1,4 +1,3 @@
 package com.josdem.auth.repository;
 
-public interface UserRepository {
-}
+public interface UserRepository {}
