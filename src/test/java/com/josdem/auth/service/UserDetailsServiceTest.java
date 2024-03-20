@@ -16,14 +16,13 @@ import org.junit.jupiter.api.TestInfo;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Slf4j
 class UserDetailsServiceTest {
 
   private static final String USERNAME = "josdem";
 
-  private UserDetailsService userDetailsService;
+  private UserDetailsServiceImpl userDetailsService;
 
   @Mock private UserRepository userRepository;
 
