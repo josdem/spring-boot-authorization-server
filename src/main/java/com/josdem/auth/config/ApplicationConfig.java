@@ -15,6 +15,8 @@ public class ApplicationConfig {
   private String authorizedUrl;
   private String clientId;
   private String clientSecret;
+  private String androidId;
+  private String androidSecret;
   private String oidcClientId;
   private String oidcClientSecret;
   private String username;

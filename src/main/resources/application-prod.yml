@@ -6,6 +6,8 @@ app:
   clientSecret: "{noop}secret"
   oidcClientId: "oidc-client"
   oidcClientSecret: "{noop}oidc-secret"
+  androidId: "androidId"
+  androidSecret: "{noop}androidSecret"
   username: "username"
   password: "password"
 server:
