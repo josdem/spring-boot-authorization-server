@@ -68,16 +68,7 @@ public class SecurityConfig {
             .scope("read")
             .scope("write")
             .build();
-    RegisteredClient androidClient =
-        RegisteredClient.withId(UUID.randomUUID().toString())
-            .clientId(applicationConfig.getAndroidId())
-            .clientSecret(applicationConfig.getAndroidSecret())
-            .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-            .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-            .scope("read")
-            .scope("write")
-            .build();
-    return new InMemoryRegisteredClientRepository(loginClient, androidClient, registeredClient);
+    return new InMemoryRegisteredClientRepository(loginClient, registeredClient);
   }
 
   @Bean
