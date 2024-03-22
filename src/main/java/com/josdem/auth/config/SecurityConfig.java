@@ -32,7 +32,7 @@ public class SecurityConfig {
   private static final int KEY_SIZE = 2048;
   public static final String ALGORITHM = "RSA";
 
-  private ApplicationConfig applicationConfig;
+  private final ApplicationConfig applicationConfig;
 
   public SecurityConfig(ApplicationConfig applicationConfig) {
     this.applicationConfig = applicationConfig;

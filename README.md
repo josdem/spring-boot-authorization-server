@@ -30,13 +30,20 @@ Where: `${testName}` is the name of the test you want to run
 
 #### To issue a token
 ```bash
-curl -X POST https://auth.josdem.io/oauth2/token -u "client:secret" -d "grant_type=client_credentials" -d "scope=write"
+curl -X POST http://localhost:8080/oauth2/token -u "client:secret" -d "grant_type=client_credentials" -d "scope=write"
 ```
 
 And you should get a response like
 
 ```bash
 {"access_token":"eyJraWQiOiI1YTMwN2I1My03NDM2LTQ4NWUtOTVkZC1mZDkxZjg1YTZmNDkiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJjbGllbnQiLCJhdWQiOiJjbGllbnQiLCJuYmYiOjE2OTM2MDA1MDUsInNjb3BlIjpbIndyaXRlIl0sImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6OTAwMC8iLCJleHAiOjE2OTM2MDA4MDUsImlhdCI6MTY5MzYwMDUwNX0.UsEfCzgaFaix2vxcw4sqobs2ChkvCI-DP1vP7t9uHQXEEhgyhOm6gWEci6PdZa0yoqUW6Yg25YZ03m5rzcolL6CADWSP2tJ4WvPNU4wvRosNTKU94j3Scbbp1M8SBpFQsOdxApMN7W11EULeafIBad_XiuQvrEJHbxowdyDimVSPZQwlh1mamszuU3hVBnhJF_0YceBDtttSfkIvreqq6d7BuPVCJWOjdHwXTGRpi5V8AUqzoJIiAR8-3Z4SrxKJUah5GOgOm4OqZyTO31paE50wphKPq9VT0_cWRM36B7cve6_hXG5qhEaYLu3G-vzk-mBQgECkk-YqEEy_dCmi5Q","scope":"write","token_type":"Bearer","expires_in":299}
+```
+
+**Note:** If you want to change your credentials: `client:secret` you can do it in `src/main/resources/application.yml` file:
+
+```yaml
+clientId: "client"
+clientSecret: "{noop}secret"
 ```
 
 #### Read this as reference
